@@ -1,0 +1,104 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <!-- show django.contrib.messages as Bootstrap alerts-->
+    {% bootstrap_messages %}
+
+    <title>Document</title>
+</head>
+<body class='d-flex flex-column h-100'>
+    <div class='d-flex jumbotron'>
+        <div>
+            <h1>The Form Application</h1>
+            <!--<img src="{% static 'form/mypic.jpg' %}">I-->
+        </div>
+    </div>
+    <form method='post' action="{% url 'form:index' %}" class='form form-group'>
+        {% csrf_token %}
+        <div>
+            <div class='d-flex flex-row form-group m-3 text-right' dir="rtl">
+                {% bootstrap_field f.first_name form_group_class='form-group col-md-6' field_class='form-control'%}
+                {% bootstrap_field f.last_name form_group_class='form-group col-md-6' field_class='form-control' %}
+            </div>
+            <div class='d-flex flex-row form-group m-3 text-right' dir="rtl">
+                {% bootstrap_field f.email form_group_class='form-group col-md-6' field_class='form-control'%}
+                {% bootstrap_field f.phone form_group_class='form-group col-md-6' field_class='form-control' %}
+            </div>
+            <div class='d-flex flex-row form-group m-3 text-right' id="selection" dir="rtl">
+                {% bootstrap_field f.selection form_group_class='form-group col-md-6' field_class='form-control' %}
+                <div id="type0">
+                    {% bootstrap_field f.type0 form_class='form-group col-md-6' field_class='form-control' %}
+                </div>
+                <div id="type1">
+                    {% bootstrap_field f.type1 form_class='form-group col-md-6' field_class='form-control' %}
+                </div>
+                <div id="type2">
+                    {% bootstrap_field f.type2 form_class='form-group col-md-6' field_class='form-control' %}
+                </div>
+            </div>
+            
+            <div class='d-flex flex-row m-3'>    
+                
+            </div>
+            <div class="d-flex flex-row">
+                {% buttons %}
+                    <button type='submit' class='btn btn-primary ml-3 mb-3'>Submit</button>
+                {% endbuttons %}
+            </div>
+        </div>
+    </form>
+
+
+    <footer class="footer mt-auto py-4 bg-dark text-white-50">
+        <div class="container text-center text-muted">
+            <small>Copyrights reserved Achahoud Inc.</small>
+        </div>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $("#id-selection").change(function(){
+            if ($(this).val() == "OPTION0") {
+                // show this select element
+                $('#type0').show();
+                $('#id-type0').attr('required', true);
+                // hide the other select elements
+                $('#type1').hide();
+                $('#type2').hide();
+                $('#id-type1').removeAttr('required', false);
+                $('#id-type1').removeAttr('data-error');
+                $('#id-type2').removeAttr('required');
+                $('#id-type2').removeAttr('data-error');
+            } else if ($(this).val() == "OPTION1") {
+                $('#type1').show();
+                $('#id-type1').attr('required', true);
+
+                $('#type0').hide();
+                $('#type2').hide();
+                $('#id-type0').removeAttr('required');
+                $('#id-type2').removeAttr('required');
+            } else if ($(this).val() == "OPTION2") {
+                $('#type2').show();
+                $('#id-type2').attr('required', true);
+
+                $('#type0').hide();
+                $('#type1').hide();
+                $('#id-type0').removeAttr('required');
+                $('#id-type1').removeAttr('required');
+            } else {
+                
+            }
+            });
+            $("#selection").trigger(change);
+    </script>
+    
+</body>
+</html>
